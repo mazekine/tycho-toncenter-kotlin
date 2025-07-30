@@ -100,12 +100,24 @@ data class BlockIdShort(
     val seqno: UInt
 )
 
+object BigIntegerSerializer : KSerializer<BigInteger> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BigInteger", PrimitiveKind.STRING)
+    
+    override fun serialize(encoder: Encoder, value: BigInteger) {
+        encoder.encodeString(value.toString())
+    }
+    
+    override fun deserialize(decoder: Decoder): BigInteger {
+        return BigInteger(decoder.decodeString())
+    }
+}
+
 @Serializable
 data class ShardIdent(
     val workchain: Int,
     val prefix: Long
 ) {
     companion object {
-        val MASTERCHAIN = ShardIdent(-1, -9223372036854775808L)
+        val MASTERCHAIN = ShardIdent(-1, Long.MIN_VALUE)
     }
 }
