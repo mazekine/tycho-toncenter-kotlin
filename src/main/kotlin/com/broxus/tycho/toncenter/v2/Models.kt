@@ -1,6 +1,7 @@
 package com.broxus.tycho.toncenter.v2
 
 import com.broxus.tycho.toncenter.common.*
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.math.BigInteger
@@ -219,7 +220,7 @@ sealed class TokenData {
     @Serializable
     @SerialName("jetton_master")
     data class JettonMaster(
-        val totalSupply: BigInteger,
+        @Contextual val totalSupply: BigInteger,
         val mintable: Boolean,
         val adminAddress: StdAddr? = null,
         val jettonContent: JettonContent,
@@ -229,7 +230,7 @@ sealed class TokenData {
     @Serializable
     @SerialName("jetton_wallet")
     data class JettonWallet(
-        val balance: BigInteger,
+        @Contextual val balance: BigInteger,
         val owner: StdAddr,
         val jetton: StdAddr,
         val jettonWalletCode: String

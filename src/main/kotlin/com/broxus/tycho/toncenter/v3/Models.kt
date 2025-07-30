@@ -1,8 +1,10 @@
 package com.broxus.tycho.toncenter.v3
 
 import com.broxus.tycho.toncenter.common.*
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 import java.math.BigInteger
 
 @Serializable
@@ -121,10 +123,10 @@ data class JettonMastersResponse(
 @Serializable
 data class JettonMastersResponseItem(
     val address: StdAddr,
-    val totalSupply: BigInteger,
+    @Contextual val totalSupply: BigInteger,
     val mintable: Boolean,
     val adminAddress: StdAddr? = null,
-    val jettonContent: Map<String, Any>? = null,
+    val jettonContent: JsonElement? = null,
     val jettonWalletCodeHash: HashBytes,
     val codeHash: HashBytes,
     val dataHash: HashBytes,
@@ -140,7 +142,7 @@ data class JettonWalletsResponse(
 @Serializable
 data class JettonWalletsResponseItem(
     val address: StdAddr,
-    val balance: BigInteger,
+    @Contextual val balance: BigInteger,
     val owner: StdAddr,
     val jetton: StdAddr,
     val lastTransactionLt: ULong,
@@ -370,7 +372,7 @@ sealed class DecodedContent {
     @SerialName("jetton_transfer")
     data class JettonTransfer(
         val queryId: ULong,
-        val amount: BigInteger,
+        @Contextual val amount: BigInteger,
         val destination: StdAddr,
         val responseDestination: StdAddr? = null,
         val customPayload: String? = null,

@@ -2,7 +2,10 @@ package com.broxus.tycho.toncenter.common
 
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.contextual
 import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,6 +22,9 @@ class TychoCenterHttpClient(
     private val json = Json {
         ignoreUnknownKeys = true
         encodeDefaults = true
+        serializersModule = SerializersModule {
+            contextual(BigIntegerSerializer)
+        }
     }
     
     private val client = OkHttpClient.Builder()
@@ -34,8 +40,7 @@ class TychoCenterHttpClient(
         .build()
     
     suspend fun get(path: String, queryParams: Map<String, String> = emptyMap()): String {
-        val urlBuilder = HttpUrl.parse("$baseUrl$path")?.newBuilder()
-            ?: throw IllegalArgumentException("Invalid URL: $baseUrl$path")
+        val urlBuilder = "$baseUrl$path".toHttpUrl().newBuilder()
         
         queryParams.forEach { (key, value) ->
             urlBuilder.addQueryParameter(key, value)
