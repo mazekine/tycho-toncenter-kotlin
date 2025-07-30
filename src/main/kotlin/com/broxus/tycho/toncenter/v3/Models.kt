@@ -111,7 +111,7 @@ data class BlocksResponse(
 @Serializable
 data class TransactionsResponse(
     val transactions: List<Transaction>,
-    val addressBook: AddressBook
+    @SerialName("address_book") val addressBook: AddressBook
 )
 
 @Serializable
@@ -155,32 +155,32 @@ data class Block(
     val workchain: Int,
     val shard: String,
     val seqno: UInt,
-    val rootHash: HashBytes,
-    val fileHash: HashBytes,
-    val globalId: Int,
+    @SerialName("root_hash") val rootHash: String,
+    @SerialName("file_hash") val fileHash: String,
+    @SerialName("global_id") val globalId: Int,
     val version: UInt,
-    val afterMerge: Boolean,
-    val beforeSplit: Boolean,
-    val afterSplit: Boolean,
-    val wantMerge: Boolean,
-    val wantSplit: Boolean,
-    val keyBlock: Boolean,
-    val vertSeqnoIncr: Boolean,
+    @SerialName("after_merge") val afterMerge: Boolean,
+    @SerialName("before_split") val beforeSplit: Boolean,
+    @SerialName("after_split") val afterSplit: Boolean,
+    @SerialName("want_merge") val wantMerge: Boolean,
+    @SerialName("want_split") val wantSplit: Boolean,
+    @SerialName("key_block") val keyBlock: Boolean,
+    @SerialName("vert_seqno_incr") val vertSeqnoIncr: Boolean,
     val flags: UByte,
-    val genUtime: UInt,
-    val startLt: ULong,
-    val endLt: ULong,
-    val validatorListHashShort: UInt,
-    val genCatchainSeqno: UInt,
-    val minRefMcSeqno: UInt,
-    val prevKeyBlockSeqno: UInt,
-    val vertSeqno: UInt,
-    val masterRefSeqno: UInt,
-    val randSeed: HashBytes,
-    val createdBy: HashBytes,
-    val txCount: UInt,
-    val masterchainBlockRef: BlockRef,
-    val prevBlocks: List<BlockRef>
+    @SerialName("gen_utime") val genUtime: String,
+    @SerialName("start_lt") val startLt: String,
+    @SerialName("end_lt") val endLt: String,
+    @SerialName("validator_list_hash_short") val validatorListHashShort: UInt,
+    @SerialName("gen_catchain_seqno") val genCatchainSeqno: UInt,
+    @SerialName("min_ref_mc_seqno") val minRefMcSeqno: UInt,
+    @SerialName("prev_key_block_seqno") val prevKeyBlockSeqno: UInt,
+    @SerialName("vert_seqno") val vertSeqno: UInt,
+    @SerialName("master_ref_seqno") val masterRefSeqno: UInt,
+    @SerialName("rand_seed") val randSeed: String,
+    @SerialName("created_by") val createdBy: String,
+    @SerialName("tx_count") val txCount: UInt,
+    @SerialName("masterchain_block_ref") val masterchainBlockRef: BlockRef,
+    @SerialName("prev_blocks") val prevBlocks: List<BlockRef>
 )
 
 @Serializable
@@ -196,20 +196,20 @@ data class Transaction(
     val hash: HashBytes,
     val lt: ULong,
     val now: UInt,
-    val mcBlockSeqno: UInt,
-    val traceId: HashBytes,
-    val prevTransHash: HashBytes,
-    val prevTransLt: ULong,
-    val origStatus: AccountStatus,
-    val endStatus: AccountStatus,
-    val totalFees: Tokens,
-    val totalFeesExtraCurrencies: Map<String, String> = emptyMap(),
+    @SerialName("mc_block_seqno") val mcBlockSeqno: UInt,
+    @SerialName("trace_id") val traceId: HashBytes,
+    @SerialName("prev_trans_hash") val prevTransHash: HashBytes,
+    @SerialName("prev_trans_lt") val prevTransLt: ULong,
+    @SerialName("orig_status") val origStatus: AccountStatus,
+    @SerialName("end_status") val endStatus: AccountStatus,
+    @SerialName("total_fees") val totalFees: Tokens,
+    @SerialName("total_fees_extra_currencies") val totalFeesExtraCurrencies: Map<String, String> = emptyMap(),
     val description: TxDescription,
-    val blockRef: BlockRef,
-    val inMsg: Message? = null,
-    val outMsgs: List<Message>,
-    val accountStateBefore: BriefAccountState,
-    val accountStateAfter: BriefAccountState
+    @SerialName("block_ref") val blockRef: BlockRef,
+    @SerialName("in_msg") val inMsg: Message? = null,
+    @SerialName("out_msgs") val outMsgs: List<Message>,
+    @SerialName("account_state_before") val accountStateBefore: BriefAccountState,
+    @SerialName("account_state_after") val accountStateAfter: BriefAccountState
 )
 
 @Serializable
@@ -238,10 +238,10 @@ sealed class TxDescription {
     data class Ordinary(
         val aborted: Boolean,
         val destroyed: Boolean,
-        val creditFirst: Boolean,
-        val storagePh: TxDescriptionStoragePhase? = null,
-        val creditPh: TxDescriptionCreditPhase? = null,
-        val computePh: TxDescriptionComputePhase,
+        @SerialName("credit_first") val creditFirst: Boolean,
+        @SerialName("storage_ph") val storagePh: TxDescriptionStoragePhase? = null,
+        @SerialName("credit_ph") val creditPh: TxDescriptionCreditPhase? = null,
+        @SerialName("compute_ph") val computePh: TxDescriptionComputePhase,
         val action: TxDescriptionActionPhase? = null,
         val bounce: TxDescriptionBouncePhase? = null
     ) : TxDescription()
@@ -251,17 +251,17 @@ sealed class TxDescription {
     data class TickTock(
         val aborted: Boolean,
         val destroyed: Boolean,
-        val isTock: Boolean,
-        val storagePh: TxDescriptionStoragePhase,
-        val computePh: TxDescriptionComputePhase,
+        @SerialName("is_tock") val isTock: Boolean,
+        @SerialName("storage_ph") val storagePh: TxDescriptionStoragePhase,
+        @SerialName("compute_ph") val computePh: TxDescriptionComputePhase,
         val action: TxDescriptionActionPhase? = null
     ) : TxDescription()
 }
 
 @Serializable
 data class TxDescriptionStoragePhase(
-    val storageFeesCollected: Tokens,
-    val statusChange: AccountStatusChange
+    @SerialName("storage_fees_collected") val storageFeesCollected: String,
+    @SerialName("status_change") val statusChange: String
 )
 
 @Serializable
@@ -278,46 +278,39 @@ data class TxDescriptionCreditPhase(
 )
 
 @Serializable
-sealed class TxDescriptionComputePhase {
-    @Serializable
-    data class Skipped(
-        val skipped: Boolean = true,
-        val reason: String
-    ) : TxDescriptionComputePhase()
-    
-    @Serializable
-    data class Executed(
-        val skipped: Boolean = false,
-        val success: Boolean,
-        val msgStateUsed: Boolean,
-        val accountActivated: Boolean,
-        val gasFees: Tokens,
-        val gasUsed: ULong,
-        val gasLimit: ULong,
-        val gasCredit: UInt? = null,
-        val mode: Byte,
-        val exitCode: Int,
-        val vmSteps: UInt,
-        val vmInitStateHash: HashBytes,
-        val vmFinalStateHash: HashBytes
-    ) : TxDescriptionComputePhase()
-}
+data class TxDescriptionComputePhase(
+    val skipped: Boolean,
+    val success: Boolean? = null,
+    @SerialName("msg_state_used") val msgStateUsed: Boolean? = null,
+    @SerialName("account_activated") val accountActivated: Boolean? = null,
+    @SerialName("gas_fees") val gasFees: String? = null,
+    @SerialName("gas_used") val gasUsed: String? = null,
+    @SerialName("gas_limit") val gasLimit: String? = null,
+    @SerialName("gas_credit") val gasCredit: String? = null,
+    val mode: Byte? = null,
+    @SerialName("exit_code") val exitCode: Int? = null,
+    @SerialName("exit_arg") val exitArg: Int? = null,
+    @SerialName("vm_steps") val vmSteps: UInt? = null,
+    @SerialName("vm_init_state_hash") val vmInitStateHash: String? = null,
+    @SerialName("vm_final_state_hash") val vmFinalStateHash: String? = null,
+    val reason: String? = null
+)
 
 @Serializable
 data class TxDescriptionActionPhase(
     val success: Boolean,
     val valid: Boolean,
-    val noFunds: Boolean,
-    val statusChange: AccountStatusChange,
-    val totalFwdFees: Tokens? = null,
-    val totalActionFees: Tokens? = null,
-    val resultCode: Int,
-    val totActions: UShort,
-    val specActions: UShort,
-    val skippedActions: UShort,
-    val msgsCreated: UShort,
-    val actionListHash: HashBytes,
-    val totMsgSize: MessageSize
+    @SerialName("no_funds") val noFunds: Boolean,
+    @SerialName("status_change") val statusChange: String,
+    @SerialName("total_fwd_fees") val totalFwdFees: String? = null,
+    @SerialName("total_action_fees") val totalActionFees: String? = null,
+    @SerialName("result_code") val resultCode: Int,
+    @SerialName("tot_actions") val totActions: UShort,
+    @SerialName("spec_actions") val specActions: UShort,
+    @SerialName("skipped_actions") val skippedActions: UShort,
+    @SerialName("msgs_created") val msgsCreated: UShort,
+    @SerialName("action_list_hash") val actionListHash: String,
+    @SerialName("tot_msg_size") val totMsgSize: MessageSize
 )
 
 @Serializable
@@ -341,18 +334,18 @@ data class Message(
     val source: StdAddr? = null,
     val destination: StdAddr? = null,
     val value: Tokens? = null,
-    val valueExtraCurrencies: Map<String, String>? = null,
-    val fwdFee: Tokens? = null,
-    val ihrFee: Tokens? = null,
-    val createdLt: ULong? = null,
-    val createdAt: UInt? = null,
-    val ihrDisabled: Boolean? = null,
+    @SerialName("value_extra_currencies") val valueExtraCurrencies: Map<String, String>? = null,
+    @SerialName("fwd_fee") val fwdFee: Tokens? = null,
+    @SerialName("ihr_fee") val ihrFee: Tokens? = null,
+    @SerialName("created_lt") val createdLt: ULong? = null,
+    @SerialName("created_at") val createdAt: UInt? = null,
+    @SerialName("ihr_disabled") val ihrDisabled: Boolean? = null,
     val bounce: Boolean? = null,
     val bounced: Boolean? = null,
-    val importFee: Tokens? = null,
-    val messageContent: MessageContent,
-    val initState: MessageContent? = null,
-    val hashNorm: HashBytes? = null
+    @SerialName("import_fee") val importFee: Tokens? = null,
+    @SerialName("message_content") val messageContent: MessageContent,
+    @SerialName("init_state") val initState: MessageContent? = null,
+    @SerialName("hash_norm") val hashNorm: HashBytes? = null
 )
 
 @Serializable

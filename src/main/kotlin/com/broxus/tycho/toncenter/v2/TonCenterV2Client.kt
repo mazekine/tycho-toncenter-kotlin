@@ -15,7 +15,8 @@ class TonCenterV2Client(
     
     suspend fun getMasterchainInfo(): MasterchainInfoResponse {
         val response = httpClient.get("$basePath/getMasterchainInfo")
-        return json.decodeFromString(response)
+        val wrapper: MasterchainInfoResponseWrapper = json.decodeFromString(response)
+        return wrapper.result
     }
     
     suspend fun getBlockHeader(params: BlockHeaderParams): BlockHeaderResponse {
@@ -45,7 +46,8 @@ class TonCenterV2Client(
     suspend fun getAddressInformation(params: AccountParams): AddressInformationResponse {
         val queryParams = mapOf("address" to params.address.toString())
         val response = httpClient.get("$basePath/getAddressInformation", queryParams)
-        return json.decodeFromString(response)
+        val wrapper: AddressInformationResponseWrapper = json.decodeFromString(response)
+        return wrapper.result
     }
     
     suspend fun getExtendedAddressInformation(params: AccountParams): ExtendedAddressInformationResponse {
