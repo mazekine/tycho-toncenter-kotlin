@@ -74,10 +74,16 @@ sealed class TonlibInputStackItem {
 }
 
 @Serializable
+data class MasterchainInfoResponseWrapper(
+    val result: MasterchainInfoResponse,
+    val ok: Boolean
+)
+
+@Serializable
 data class MasterchainInfoResponse(
     @SerialName("@type") val type: String,
     val last: TonlibBlockId,
-    val stateRootHash: HashBytes,
+    @SerialName("state_root_hash") val stateRootHash: String,
     val init: TonlibBlockId,
     @SerialName("@extra") val extra: String = ""
 )
@@ -86,10 +92,10 @@ data class MasterchainInfoResponse(
 data class TonlibBlockId(
     @SerialName("@type") val type: String = "ton.blockIdExt",
     val workchain: Int,
-    val shard: Long,
+    val shard: String,
     val seqno: UInt,
-    val rootHash: HashBytes,
-    val fileHash: HashBytes
+    @SerialName("root_hash") val rootHash: String,
+    @SerialName("file_hash") val fileHash: String
 )
 
 @Serializable
@@ -122,18 +128,24 @@ enum class AddressType {
 }
 
 @Serializable
+data class AddressInformationResponseWrapper(
+    val result: AddressInformationResponse,
+    val ok: Boolean
+)
+
+@Serializable
 data class AddressInformationResponse(
     @SerialName("@type") val type: String,
-    val balance: Tokens,
-    val extraCurrencies: List<String> = emptyList(),
+    val balance: String,
+    @SerialName("extra_currencies") val extraCurrencies: List<String> = emptyList(),
     val code: String? = null,
     val data: String? = null,
-    val lastTransactionId: TonlibTransactionId,
-    val blockId: TonlibBlockId,
-    val frozenHash: HashBytes? = null,
-    val syncUtime: UInt,
+    @SerialName("last_transaction_id") val lastTransactionId: TonlibTransactionId,
+    @SerialName("block_id") val blockId: TonlibBlockId,
+    @SerialName("frozen_hash") val frozenHash: String? = null,
+    @SerialName("sync_utime") val syncUtime: UInt,
     @SerialName("@extra") val extra: String = "",
-    val state: TonlibAccountStatus
+    val state: String
 )
 
 @Serializable
