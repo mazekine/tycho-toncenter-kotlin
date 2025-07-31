@@ -162,7 +162,7 @@ val jettonWallets = client.v3.getJettonWallets(
 
 ```kotlin
 val client = TychoCenterClient(
-    baseUrl = "https://toncenter.com",
+    baseUrl = "https://toncenter-testnet.tychoprotocol.com",
     enableLogging = true,
     connectTimeoutMs = 30_000,
     readTimeoutMs = 60_000
@@ -185,9 +185,9 @@ try {
 
 The library provides type-safe data classes for all API models:
 
-- `StdAddr` - TON address representation
+- `StdAddr` - TON/Tycho address representation
 - `HashBytes` - Hash values (32 bytes)
-- `Tokens` - TON amounts with BigInteger precision
+- `Tokens` - TON/Tycho amounts with BigInteger precision
 - `BlockId` - Block identification
 - `Transaction` - Transaction data
 - `Message` - Message data
@@ -199,7 +199,7 @@ The client is thread-safe and can be used from multiple coroutines simultaneousl
 
 ## License
 
-MIT License - see LICENSE file for details.
+Apache License, Version 2.0 (LICENSE-APACHE or https://www.apache.org/licenses/LICENSE-2.0)
 
 ## Contributing
 
