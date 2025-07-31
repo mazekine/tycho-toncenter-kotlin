@@ -35,7 +35,7 @@ fun main() = runBlocking {
             val testAddress = StdAddr.parse("0:0000000000000000000000000000000000000000000000000000000000000000")
             val addressInfo = client.v2.getAddressInformation(AccountParams(testAddress))
             println("✅ Success! Address state: ${addressInfo.state}")
-            println("   Balance: ${addressInfo.balance.value}")
+            println("   Balance: ${addressInfo.balance}")
         } catch (e: Exception) {
             println("❌ Failed: ${e.message}")
         }
@@ -61,7 +61,7 @@ fun main() = runBlocking {
             println("✅ Success! Found ${transactions.transactions.size} transactions")
             if (transactions.transactions.isNotEmpty()) {
                 val firstTx = transactions.transactions.first()
-                println("   First transaction hash: ${firstTx.hash.value}")
+                println("   First transaction hash: ${firstTx.hash}")
                 println("   Account: ${firstTx.account}")
             }
         } catch (e: Exception) {
