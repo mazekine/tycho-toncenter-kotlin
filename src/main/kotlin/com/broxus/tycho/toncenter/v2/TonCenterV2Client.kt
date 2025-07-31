@@ -110,24 +110,58 @@ class TonCenterV2Client(
         return json.decodeFromString(response)
     }
     
+    /**
+     * Sends a serialized message (BOC - Bag of Cells) to the blockchain.
+     * 
+     * @param params Parameters containing the serialized message
+     * @return Information about the sent message including hash
+     */
     suspend fun sendBoc(params: SendBocParams): ExtMsgInfoResponse {
         val body = json.encodeToString(params)
         val response = httpClient.post("$basePath/sendBoc", body)
         return json.decodeFromString(response)
     }
     
+    /**
+     * Sends a serialized message (BOC) to the blockchain and returns the hash.
+     * 
+     * Similar to sendBoc but specifically designed to return hash information.
+     * 
+     * @param params Parameters containing the serialized message
+     * @return Information about the sent message including hash
+     */
     suspend fun sendBocReturnHash(params: SendBocParams): ExtMsgInfoResponse {
         val body = json.encodeToString(params)
         val response = httpClient.post("$basePath/sendBocReturnHash", body)
         return json.decodeFromString(response)
     }
     
+    /**
+     * Executes a get method on a smart contract.
+     * 
+     * This method allows calling read-only methods on smart contracts to retrieve
+     * data without modifying the contract state. The method is executed locally
+     * and does not require sending a transaction.
+     * 
+     * @param params Parameters including contract address, method name, and stack arguments
+     * @return Execution result including exit code, gas usage, and return stack
+     */
     suspend fun runGetMethod(params: RunGetMethodParams): RunGetMethodResponse {
         val body = json.encodeToString(params)
         val response = httpClient.post("$basePath/runGetMethod", body)
         return json.decodeFromString(response)
     }
     
+    /**
+     * Performs a generic JSON-RPC call to the v2 API.
+     * 
+     * This method provides direct access to the underlying JSON-RPC protocol
+     * for advanced use cases or methods not covered by the typed API methods.
+     * 
+     * @param method The JSON-RPC method name
+     * @param params The method parameters
+     * @return Raw JSON response as a string
+     */
     suspend fun jsonRpc(method: String, params: Any): String {
         val request = mapOf(
             "jsonrpc" to "2.0",
